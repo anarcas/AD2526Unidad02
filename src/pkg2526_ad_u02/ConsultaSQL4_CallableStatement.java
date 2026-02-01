@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author anaranjo
  */
-public class ConsultaSQL3_PreparedStatement_executeUpdate1 {
+public class ConsultaSQL4_CallableStatement {
 
     /**
      * @param args the command line arguments
@@ -28,7 +28,6 @@ public class ConsultaSQL3_PreparedStatement_executeUpdate1 {
         Connection con;
         String driver;
         String connectionUrl;
-        int numActualizaciones;
         String mensajeSalida;
         String posicion;
         Integer posicionAtleta;
@@ -49,12 +48,12 @@ public class ConsultaSQL3_PreparedStatement_executeUpdate1 {
             Class.forName(driver);
             con = (Connection) DriverManager.getConnection(connectionUrl);
 
-            // Preparación de la consulta
+            // Preparación de la llamada al procedimiento
             CallableStatement procedimiento = con.prepareCall(llamadaProcedimiento);
-            // Se envía parámetro de entrada para completar la consulta
-             // Se ejecuta el llamadaProcedimiento
+            // Se envía parámetro de entrada para completar la consulta y se define el parámetro de salida
             procedimiento.setInt(1, posicionAtleta);
             procedimiento.registerOutParameter(2, java.sql.Types.INTEGER);
+            // Se ejecuta el llamadaProcedimiento
             procedimiento.execute();
             // Se obtiene el resultado
             numAtletas=procedimiento.getInt(2);
